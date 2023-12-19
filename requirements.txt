@@ -36,7 +36,7 @@ pyparsing==3.0.7
 pytest==7.0.1
 python-dateutil==2.8.2
 pytz==2021.3
-requests==2.27.1
+requests==2.31.0
 sagemaker==2.169.0
 s3transfer==0.6.1
 six==1.16.0
