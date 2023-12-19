@@ -26,13 +26,19 @@ Please make sure you have installed the following tools, languages as well as ac
 
 ## Setup instructions
 
-## Using Cloud9
+### Using Cloud9
 
-- Follow this [link](https://docs.aws.amazon.com/cloud9/latest/user-guide/sample-cdk.html) to setup your AWS Cloud9 environment.
+- Follow this [link](https://docs.aws.amazon.com/cloud9/latest/user-guide/sample-cdk.html) to setup your AWS Cloud9 environment. We recommend at least a t3.small instance for this deployment.
 - To prevent running out of space in later deployment steps, resize your Cloud9 EBS volume to at least 20 GB by running the following command from project root folder: (change "20" to the appropriate size that you need)
 
 ```
 bash resize.sh 20
+```
+
+### Clone this repository
+
+```
+git clone https://github.com/aws-samples/generative-ai-marketing-portal
 ```
 
 ### Build Langchain Lambda Layer
@@ -40,17 +46,16 @@ bash resize.sh 20
 - Ensure you're at the project root path first.
 
 ```
-$ cd assets/layers/langchain
-$ docker run \
+pushd assets/layers/langchain
+docker run \
  -v "$(pwd):/var/task" \
  "public.ecr.aws/sam/build-python3.9" \
  /bin/sh -c "pip install -r requirements.txt \
  -t python/lib/python3.9/site-packages/; exit"
-$ chmod -R 777 python/ # This might not be necessary if you're on Cloud9
-$ zip -r langchain-layer.zip python
+chmod -R 777 python/ # This might not be necessary if you're on Cloud9
+zip -r langchain-layer.zip python
+popd
 ```
-
-- Return to the project root after.
 
 ### CDK Deployment
 
@@ -58,24 +63,24 @@ $ zip -r langchain-layer.zip python
 - Install necessary requirements:
 
   ```
-  $ pip install -r requirements.txt
+  pip install -r requirements.txt
   ```
 
 - For local development and testing:
   ```
-  $ pip install -r requirements-dev.txt
+  pip install -r requirements-dev.txt
   ```
 - Specify your deployment settings:
   ```
-  $ vim config.yml
+  vim config.yml
   ```
 - You can leave most of the settings as default, but do remember to change "email_identity" to your own email address.
 - Deploy cdk:
 
   ```
-  $ cdk bootstrap --profile name-of-profile
-  $ cdk synth
-  $ cdk deploy --profile name-of-profile
+  cdk bootstrap --profile name-of-profile
+  cdk synth
+  cdk deploy --profile name-of-profile
   ```
 
 - If you're using Cloud9, replace name-of-profile with the "default" profile.
@@ -188,8 +193,10 @@ COVER_IMAGE_URL = "" # Input URL of image (publicly accessible) that you'd like 
 COVER_IMAGE_LOGIN_URL = "" # Input URL of image (publicly accessible) that you'd like to use as the cover image of the login page (unauthenticated)
 ```
 
-- cd assets/streamlit/src
-- streamlit run Home.py
+```
+cd assets/streamlit/src
+streamlit run Home.py
+```
 
 ## Solution Architecture
 
