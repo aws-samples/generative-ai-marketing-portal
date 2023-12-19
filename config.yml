@@ -15,7 +15,7 @@ streamlit:
 pinpoint:
   create_pinpoint_project: True # whether to create a new Pinpoint project
   existing_pinpoint_project_id: None # provide existing Pinpoint project ID (requires create_pinpoint_project = False)
-  email_identity: abc@example.com # specify the email that you'd want to use to send email from (Note that this currently only support email addresses, if you'd like to verify email domains you'd need to do so inside the console)
+  email_identity: abc@example.com # specify an UNVERIFIED email address that you'd want to use to send email from (Note that this currently only support email addresses, if you'd like to verify email domains you'd need to do so inside the console)
   sms_identity: None #specify the phone number that you'd like to send SMS from (needs to be purchased from Amazon Pinpoint console)
 
 personalize:
