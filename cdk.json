@@ -1,6 +1,5 @@
 {
   "app": "python3.9 app.py",
-  "profile": "sandbox",
   "watch": {
     "include": ["**"],
     "exclude": [

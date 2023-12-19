@@ -26,6 +26,13 @@ Please make sure you have installed the following tools, languages as well as ac
 
 ## Setup instructions
 
+### Clone this repository
+
+```
+git clone https://github.com/aws-samples/generative-ai-marketing-portal
+cd generative-ai-marketing-portal
+```
+
 ### Using Cloud9
 
 - Follow this [link](https://docs.aws.amazon.com/cloud9/latest/user-guide/sample-cdk.html) to setup your AWS Cloud9 environment. We recommend at least a t3.small instance for this deployment.
@@ -35,15 +42,7 @@ Please make sure you have installed the following tools, languages as well as ac
 bash resize.sh 20
 ```
 
-### Clone this repository
-
-```
-git clone https://github.com/aws-samples/generative-ai-marketing-portal
-```
-
 ### Build Langchain Lambda Layer
-
-- Ensure you're at the project root path first.
 
 ```
 pushd assets/layers/langchain
@@ -74,16 +73,14 @@ popd
   ```
   vim config.yml
   ```
-- You can leave most of the settings as default, but do remember to change "email_identity" to your own email address.
+  - You can leave most of the settings as default, but do remember to change "email_identity" to your own email address.
 - Deploy cdk:
 
   ```
-  cdk bootstrap --profile name-of-profile
+  cdk bootstrap
   cdk synth
-  cdk deploy --profile name-of-profile
+  cdk deploy
   ```
-
-- If you're using Cloud9, replace name-of-profile with the "default" profile.
 
 - Note the CDK deployment outputs:
   - CognitoClientID
