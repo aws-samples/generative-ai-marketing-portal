@@ -33,4 +33,4 @@ bedrock:
 
 cloudfront:
   custom_header_name: "X-My-Custom-Header" # Name of the custom header to be used for authentication
-  custom_header_value: "aijfoiwjeoijfawioejfoiwajefoiwjeofiwoefjaoiwjefooijawefoij" # Value of the custom header to be used for authentication
+  custom_header_value: "aijfoiwjeoijfawioejfoiwajefoiwjeofiwoefjaoiwjefooijawefoij" # Value of the custom header to be used for authentication, change this to a random value
