@@ -1,0 +1,11 @@
+[server]
+enableCORS=false
+enableWebsocketCompression=false
+enableXsrfProtection=false
+headless=true
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+base="light"

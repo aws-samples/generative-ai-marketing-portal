@@ -1,0 +1,7 @@
+{
+    "INSTRUCTION": "Summarize the following document in one paragraph.",
+    "EXAMPLES": null,
+    "STOP_WORDS": [],
+    "TOP_P": 0.9,
+    "INPUT_DOCUMENT_LENGTH": 10000
+}

@@ -1,0 +1,32 @@
+# Settings for stack deployment
+# Choose the components you need for your demo, there should be only one value set to True per section
+
+stack_name: genai-marketer # Name of your demo, will be used as stack name and prefix for resources
+
+streamlit:
+  deploy_streamlit: True # Whether to deploy Streamlit frontend on ECS
+  open_to_public_internet: True # Setting open_to_public_internet to true will open frontend to public internet with cognito MFA login
+  # ip_address_allowed: [pl-4e2ece27] # List of IP addresses (cidr ranges) and prefix lists allowed to access the app in the ALB Security Group. If not set, SG is open to the internet
+  ecs_memory: 1024 # Memory of the ECS instance (Mb)
+  ecs_cpu: 512 # CPU of ECS instance
+  cover_image_url: "https://reinvent.awsevents.com/content/dam/reinvent/2023/media/ripples/countdown-keyart.png" # custom cover image on app pages
+  cover_image_login_url: "https://reinvent.awsevents.com/content/dam/reinvent/2023/media/ripples/countdown-keyart.png" # default cover image on login page
+
+pinpoint:
+  create_pinpoint_project: True # whether to create a new Pinpoint project
+  existing_pinpoint_project_id: None # provide existing Pinpoint project ID (requires create_pinpoint_project = False)
+  email_identity: abc@example.com # specify the email that you'd want to use to send email from (Note that this currently only support email addresses, if you'd like to verify email domains you'd need to do so inside the console)
+  sms_identity: None #specify the phone number that you'd like to send SMS from (needs to be purchased from Amazon Pinpoint console)
+
+personalize:
+  deploy_personalize_infrastructure: True #whether to deploy infrastructure for Amazon Personalize
+  personalize_solution_version_arn: None # [OPTIONAL] If you already have a solution version that you'd like to use with the portal. Otherwise, leave as is and supply solution version ARN as environment variable (requires deploy_personalize_infrastructure = False)
+
+bedrock:
+  region: "us-east-1" # Region of Amazon Bedorck
+  cross_account: False # If you would like to use bedrock via a different AWS account
+  cross_account_role_arn: None # Only if cross_account == True: ARN of IAM role in cross account allowed to use bedrock. See sample role in asset samples/roles/cross_account_bedrock.
+
+cloudfront:
+  custom_header_name: "X-My-Custom-Header" # Name of the custom header to be used for authentication
+  custom_header_value: "aijfoiwjeoijfawioejfoiwajefoiwjeofiwoefjaoiwjefooijawefoij" # Value of the custom header to be used for authentication

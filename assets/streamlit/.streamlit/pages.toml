@@ -1,0 +1,27 @@
+[[pages]]
+path="src/Home.py"
+name="Home"
+icon="🏠"
+
+[[pages]]
+path="src/app_pages/00_Prompt_Iterator.py"
+name="Prompt Iterator"
+icon="🧙🏻‍♀️"
+
+[[pages]]
+path="src/app_pages/01_Pinpoint_Segment.py"
+name="Amazon Pinpoint Segment"
+icon=":bar_chart:"
+
+[[pages]]
+path="src/app_pages/02_Personalize_Segment.py"
+name="Amazon Personalize Segment"
+icon=":white_check_mark:"
+
+[[pages]]
+path="src/app_pages/03_Content_Generator.py"
+name="1:1 Content Generator"
+icon="🪄"
+
+
+

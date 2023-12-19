@@ -1,0 +1,32 @@
+[build-system]
+requires = ["poetry-core>=1.6.1"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "CDS GenAI front-end"
+version = "0.1.0"
+description = "Front-end of CDS GenAI application"
+authors = [
+    "Tristan Nguyen <nnatri@amazon.com>",
+    "Philipp Kaindl <philikai@amazon.de>",
+]
+
+[tool.poetry.dependencies]
+python = ">3.9.7,<3.10.0"
+boto3 = "^1.33.0"
+langchain = "^0.0.341"
+streamlit = "^1.25.0"
+streamlit-chat = "~0.1.1"
+st-pages = "~0.4.3"
+streamlit-extras = "~0.2.7"
+watchdog = "~3.0.0"
+pyjwt = "~2.7.0"
+python-dotenv = "~1.0.0"
+qrcode = "^7.4.2"
+aiohttp = "^3.9.1"
+gitpython = "^3.1.40"
+pillow = "^10.1.0"
+pyarrow = "^14.0.1"
+tornado = "^6.3.3"
+urllib3 = "1.26.18"
+s3fs = "^2023.12.2"

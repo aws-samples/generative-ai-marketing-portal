@@ -1,0 +1,22 @@
+-r requirements.txt
+#Testing
+bandit
+scoutsuite
+safety
+checkov
+pre-commit
+tox
+pytest
+
+## Streamlit local dev
+PyYAML
+langchain
+s3fs
+streamlit
+streamlit_extras
+hydralit_components
+plotly
+PyJWT
+qrcode
+python-dotenv
+st_pages
