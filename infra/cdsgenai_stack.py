@@ -111,6 +111,8 @@ class CDSGenAIStack(Stack):
             bedrock_role_arn=bedrock_role_arn,
             pinpoint_project_id=self.pinpoint_constructs.pinpoint_project_id,
             pinpoint_export_role_arn=self.pinpoint_constructs.pinpoint_role_ARN,
+            architecture=config["lambda"]["architecture"],
+            python_runtime=config["lambda"]["python_runtime"],
             email_identity=config["pinpoint"]["email_identity"],
             sms_identity=config["pinpoint"]["sms_identity"],
             personalize_role_arn=self.personalize_constructs.personalize_role_ARN,

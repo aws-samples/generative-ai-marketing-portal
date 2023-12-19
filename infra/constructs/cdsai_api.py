@@ -35,6 +35,8 @@ class CDSAIAPIConstructs(Construct):
         bedrock_region: str,
         pinpoint_project_id: str,
         pinpoint_export_role_arn: str,
+        architecture: str,
+        python_runtime: str,
         email_identity: str,
         sms_identity: str,
         personalize_role_arn: str,
@@ -53,6 +55,23 @@ class CDSAIAPIConstructs(Construct):
         self.sms_identity = sms_identity
         self.personalize_role_arn = personalize_role_arn
         self.personalize_solution_version_arn = personalize_solution_version_arn
+
+        ## **************** Set Architecture and Python Runtime ****************
+        if architecture == "ARM_64":
+            self._architecture = _lambda.Architecture.ARM_64
+        elif architecture == "X86_64":
+            self._architecture = _lambda.Architecture.X86_64
+        else:
+            raise RuntimeError("Select one option for system architecture among [ARM_64, X86_64]")
+
+        if python_runtime == "PYTHON_3_10":
+            self._runtime = _lambda.Runtime.PYTHON_3_10
+        elif python_runtime == "PYTHON_3_9":
+            self._runtime = _lambda.Runtime.PYTHON_3_9
+        elif python_runtime == "PYTHON_3_11":
+            self._runtime = _lambda.Runtime.PYTHON_3_11
+        else:
+            raise RuntimeError("Select a Python version >= PYTHON_3_9")
 
         ## **************** Create resources ****************
 
@@ -192,11 +211,11 @@ class CDSAIAPIConstructs(Construct):
         self.layer_langchain = _lambda.LayerVersion(
             self,
             f"{stack_name}-langchain-layer",
-            compatible_runtimes=[_lambda.Runtime.PYTHON_3_9],
-            compatible_architectures=[_lambda.Architecture.ARM_64],
+            compatible_runtimes=[self._runtime],
+            compatible_architectures=[self._architecture],
             code=_lambda.Code.from_asset("./assets/layers/langchain/langchain-layer.zip"),
             description="A layer for langchain library",
-            layer_version_name=f"{stack_name}-langchain-layer-2",
+            layer_version_name=f"{stack_name}-langchain-layer",
         )
 
     ## **************** Lambda Functions ****************
@@ -205,10 +224,10 @@ class CDSAIAPIConstructs(Construct):
         self.bedrock_content_generation_lambda = _lambda.Function(
             self,
             f"{stack_name}-bedrock-content-generation-lambda",
-            runtime=_lambda.Runtime.PYTHON_3_9,
+            runtime=self._runtime,
             code=_lambda.Code.from_asset("./assets/lambda/bedrock_content_generation_lambda"),
             handler="bedrock_content_generation_lambda.lambda_handler",
-            architecture=_lambda.Architecture.ARM_64,
+            architecture=self._architecture,
             function_name=f"{stack_name}-bedrock-content-generation-lambda",
             memory_size=3008,
             timeout=Duration.seconds(QUERY_BEDROCK_TIMEOUT),
@@ -230,7 +249,7 @@ class CDSAIAPIConstructs(Construct):
         self.pinpoint_segment_lambda = _lambda.Function(
             self,
             f"{stack_name}-pinpoint-segment-lambda",
-            runtime=_lambda.Runtime.PYTHON_3_9,
+            runtime=self._runtime,
             code=_lambda.Code.from_asset("./assets/lambda/genai_pinpoint_segment"),
             handler="pinpoint_segment.lambda_handler",
             function_name=f"{stack_name}-pinpoint-segment",
@@ -251,7 +270,7 @@ class CDSAIAPIConstructs(Construct):
         self.pinpoint_job_lambda = _lambda.Function(
             self,
             f"{stack_name}-pinpoint-job-lambda",
-            runtime=_lambda.Runtime.PYTHON_3_9,
+            runtime=self._runtime,
             code=_lambda.Code.from_asset("./assets/lambda/genai_pinpoint_job"),
             handler="pinpoint_job.lambda_handler",
             function_name=f"{stack_name}-pinpoint-job",
@@ -274,7 +293,7 @@ class CDSAIAPIConstructs(Construct):
         self.pinpoint_message_lambda = _lambda.Function(
             self,
             f"{stack_name}-pinpoint-message-lambda",
-            runtime=_lambda.Runtime.PYTHON_3_9,
+            runtime=self._runtime,
             code=_lambda.Code.from_asset("./assets/lambda/genai_pinpoint_message"),
             handler="pinpoint_message.lambda_handler",
             function_name=f"{stack_name}-pinpoint-message",
@@ -298,7 +317,7 @@ class CDSAIAPIConstructs(Construct):
         self.s3_fetch_lambda = _lambda.Function(
             self,
             f"{stack_name}-s3-fetch-lambda",
-            runtime=_lambda.Runtime.PYTHON_3_9,
+            runtime=self._runtime,
             code=_lambda.Code.from_asset("./assets/lambda/genai_s3"),
             handler="s3_fetch.lambda_handler",
             function_name=f"{stack_name}-s3-fetch",
@@ -321,7 +340,7 @@ class CDSAIAPIConstructs(Construct):
         self.personalize_batch_segment_job_lambda = _lambda.Function(
             self,
             f"{stack_name}-personalize-batch-segment-job-lambda",
-            runtime=_lambda.Runtime.PYTHON_3_9,
+            runtime=self._runtime,
             code=_lambda.Code.from_asset("./assets/lambda/genai_personalize_batch_segment_job"),
             handler="personalize_batch_segment_job.lambda_handler",
             function_name=f"{stack_name}-personalize-batch-segment-job",
@@ -344,7 +363,7 @@ class CDSAIAPIConstructs(Construct):
         self.personalize_batch_segment_jobs_lambda = _lambda.Function(
             self,
             f"{stack_name}-personalize-batch-segment-jobs-lambda",
-            runtime=_lambda.Runtime.PYTHON_3_9,
+            runtime=self._runtime,
             code=_lambda.Code.from_asset("./assets/lambda/genai_personalize_batch_segment_jobs"),
             handler="personalize_batch_segment_jobs.lambda_handler",
             function_name=f"{stack_name}-personalize-batch-segment-jobs",

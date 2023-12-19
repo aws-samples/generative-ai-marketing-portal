@@ -28,8 +28,8 @@ Please make sure you have installed the following tools, languages as well as ac
 
 ### Clone this repository
 
-```
-git clone https://github.com/aws-samples/generative-ai-marketing-portal
+```console
+git clone https://github.com/aws-samples/generative-ai-marketing-portal &&
 cd generative-ai-marketing-portal
 ```
 
@@ -45,14 +45,14 @@ bash resize.sh 20
 ### Build Langchain Lambda Layer
 
 ```
-pushd assets/layers/langchain
+pushd assets/layers/langchain &&
 docker run \
  -v "$(pwd):/var/task" \
  "public.ecr.aws/sam/build-python3.9" \
  /bin/sh -c "pip install -r requirements.txt \
- -t python/lib/python3.9/site-packages/; exit"
-chmod -R 777 python/ # This might not be necessary if you're on Cloud9
-zip -r langchain-layer.zip python
+ -t python/lib/python3.9/site-packages/; exit" &&
+chmod -R 777 python/ &&
+zip -r langchain-layer.zip python &&
 popd
 ```
 
@@ -69,16 +69,15 @@ popd
   ```
   pip install -r requirements-dev.txt
   ```
-- Specify your deployment settings:
-  ```
-  vim config.yml
-  ```
-  - You can leave most of the settings as default, but do remember to change "email_identity" to your own email address.
+- Edit config.yml file:
+  - Change "email_identity" to your own email address
+  - Change architecture to ARM_64 if you are deploying locally using an M1 Macbook.
+  - [OPTIONAL] If you have gone through the optional Personalize deployment steps below, provide your solution version ARN in personalize_solution_version_arn.
 - Deploy cdk:
 
   ```
-  cdk bootstrap
-  cdk synth
+  cdk bootstrap &&
+  cdk synth &&
   cdk deploy
   ```
 

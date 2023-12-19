@@ -3,6 +3,10 @@
 
 stack_name: genai-marketer # Name of your demo, will be used as stack name and prefix for resources
 
+lambda:
+  architecture: X86_64 # The system architectures compatible with the Lambda functions X86_64 or ARM_64 (to be used when building with a Mac M1 chip)
+  python_runtime: PYTHON_3_9 # Python runtime for Lambda function
+
 streamlit:
   deploy_streamlit: True # Whether to deploy Streamlit frontend on ECS
   open_to_public_internet: True # Setting open_to_public_internet to true will open frontend to public internet with cognito MFA login
