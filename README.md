@@ -88,6 +88,8 @@ popd
   - S3BucketNameOutput
   - CloudfrontDistributionDomain
 - Upload sample Pinpoint user segment file (assets/demo-data/df_segment_data.csv) to Amazon Pinpoint by following the instructions [here](https://docs.aws.amazon.com/pinpoint/latest/userguide/segments-importing.html)
+  - The first five rows have been hard-coded to have the highest conversion probabibility based on User.UserAttributes.Probability column. Communications will be sent to the highest probability first.
+  - Replace verified email addresses and phone numbers in the **Address** column for these 5 rows to your own values to test receiving the email/SMS on your own devices.
 
 ### Create Amazon Bedrock Model Access
 
