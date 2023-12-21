@@ -109,7 +109,7 @@ fs = s3fs.S3FileSystem(anon=False)
 #########################
 
 reset_session_state(page_name=PAGE_NAME)
-st.session_state.setdefault("ai_model", MODELS_DISPLAYED[1])  # default model
+st.session_state.setdefault("ai_model", MODELS_DISPLAYED[0])  # default model
 # if "ai_model" not in st.session_state:
 #     st.session_state["ai_model"] = MODELS_DISPLAYED[0]  # default model
 LOGGER.log(logging.DEBUG, (f"ai_model selected: {st.session_state['ai_model']}"))

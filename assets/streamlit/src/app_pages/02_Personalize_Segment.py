@@ -117,7 +117,7 @@ fs = s3fs.S3FileSystem(anon=False)
 #########################
 
 reset_session_state(page_name=PAGE_NAME)
-st.session_state.setdefault("ai_model", MODELS_DISPLAYED[1])  # default model
+st.session_state.setdefault("ai_model", MODELS_DISPLAYED[0])  # default model
 # if "ai_model" not in st.session_state:
 #     st.session_state["ai_model"] = MODELS_DISPLAYED[0]  # default model
 LOGGER.log(logging.DEBUG, (f"ai_model selected: {st.session_state['ai_model']}"))
@@ -140,7 +140,12 @@ if "df_personalize_jobs" not in st.session_state:
 ########################################################################################################################################################################
 
 # Define the style of the box element
-box_style = {"border": "1px solid #ccc", "padding": "10px", "border-radius": "5px", "margin": "10px"}
+box_style = {
+    "border": "1px solid #ccc",
+    "padding": "10px",
+    "border-radius": "5px",
+    "margin": "10px",
+}
 
 ########################################################################################################################################################################
 ######################################################## NavBar      ###################################################################################################
@@ -153,10 +158,12 @@ box_style = {"border": "1px solid #ccc", "padding": "10px", "border-radius": "5p
 
 
 def create_personalize_batch_segment(item_ids, num_results):
-    personalize_batch_segment_response = personalize_api.invoke_personalize_batch_segment(
-        access_token=st.session_state["access_token"],
-        item_ids=item_ids,
-        num_results=num_results,
+    personalize_batch_segment_response = (
+        personalize_api.invoke_personalize_batch_segment(
+            access_token=st.session_state["access_token"],
+            item_ids=item_ids,
+            num_results=num_results,
+        )
     )
     return personalize_batch_segment_response
 
@@ -248,7 +255,10 @@ st.markdown(
 ########################################################################################################################################################################
 
 st.sidebar.markdown(f"<div style='{box_style}'>", unsafe_allow_html=True)
-st.sidebar.markdown(f"<p><strong>Current Segment: </strong> {st.session_state['df_name']}</p>", unsafe_allow_html=True)
+st.sidebar.markdown(
+    f"<p><strong>Current Segment: </strong> {st.session_state['df_name']}</p>",
+    unsafe_allow_html=True,
+)
 st.markdown("## Batch Segmentation with Amazon Personalize")
 
 #########################
@@ -273,7 +283,9 @@ for col in item_data.columns:
     if col != "ITEM_ID":
         # For categorical columns, use a selectbox
         if item_data[col].dtype == "object":
-            filters[col] = st.sidebar.selectbox(f"Select {col}", options=["All"] + list(item_data[col].unique()))
+            filters[col] = st.sidebar.selectbox(
+                f"Select {col}", options=["All"] + list(item_data[col].unique())
+            )
         # For numerical columns, use a slider
         else:
             filters[col] = st.sidebar.slider(
@@ -289,7 +301,9 @@ filtered_data = item_data.copy()
 for col, value in filters.items():
     if value != "All":
         if isinstance(value, tuple):  # For numerical columns
-            filtered_data = filtered_data[(filtered_data[col] >= value[0]) & (filtered_data[col] <= value[1])]
+            filtered_data = filtered_data[
+                (filtered_data[col] >= value[0]) & (filtered_data[col] <= value[1])
+            ]
         else:  # For categorical columns
             filtered_data = filtered_data[filtered_data[col] == value]
 
@@ -305,10 +319,18 @@ if st.button("Create Batch Segment"):
     # Join the list into a comma-separated string
     item_ids = ",".join(item_ids)
 
-    personalize_batch_segment_response = create_personalize_batch_segment(item_ids, num_results)
-    personalize_batch_segment_response = json.loads(personalize_batch_segment_response.decode("utf-8"))
-    st.session_state["job_name"] = personalize_batch_segment_response["batchSegmentJobArn"].split("/")[-1]
-    st.write(f'Batch Segment:{st.session_state["job_name"]} for items: {str(item_ids)} Created Successfully!')
+    personalize_batch_segment_response = create_personalize_batch_segment(
+        item_ids, num_results
+    )
+    personalize_batch_segment_response = json.loads(
+        personalize_batch_segment_response.decode("utf-8")
+    )
+    st.session_state["job_name"] = personalize_batch_segment_response[
+        "batchSegmentJobArn"
+    ].split("/")[-1]
+    st.write(
+        f'Batch Segment:{st.session_state["job_name"]} for items: {str(item_ids)} Created Successfully!'
+    )
 
 st.divider()
 
@@ -322,8 +344,10 @@ try:
     # Decode the byte string and parse as JSON
     data = json.loads(personalize_jobs.decode("utf-8"))
     st.session_state.df_personalize_jobs = pd.DataFrame(data["batchSegmentJobs"])
-    st.session_state.df_personalize_jobs = st.session_state.df_personalize_jobs.sort_values(
-        by="creationDateTime", ascending=False
+    st.session_state.df_personalize_jobs = (
+        st.session_state.df_personalize_jobs.sort_values(
+            by="creationDateTime", ascending=False
+        )
     )
     show_segment_info = True  # Flag to control UI display
 except KeyError:
@@ -339,7 +363,8 @@ if show_segment_info:
     )
     # Create a dropdown for the jobName column
     selected_job_name = st.selectbox(
-        label="Select a Personalize Job to view:", options=st.session_state.df_personalize_jobs["jobName"].tolist()
+        label="Select a Personalize Job to view:",
+        options=st.session_state.df_personalize_jobs["jobName"].tolist(),
     )
 
     # Create a button to view the selected segment
@@ -359,7 +384,9 @@ if show_segment_info:
         job_details = json.loads(personalize_batch_segment_job.decode("utf-8"))
 
         # Extract the S3 path for the jobOutput
-        s3_path = job_details["batchSegmentJob"]["jobOutput"]["s3DataDestination"]["path"]
+        s3_path = job_details["batchSegmentJob"]["jobOutput"]["s3DataDestination"][
+            "path"
+        ]
 
         # Get the job name
         job_name = job_details["batchSegmentJob"]["jobName"]
@@ -382,14 +409,20 @@ if show_segment_info:
         with fs.open(f"s3://{BUCKET_NAME}/demo-data/df_segment_data.csv", "rb") as f:
             user_data = pd.read_csv(f)
         # Convert both columns to the same data type (e.g., string)
-        df_recommended_segments["userId"] = df_recommended_segments["userId"].astype(str)
+        df_recommended_segments["userId"] = df_recommended_segments["userId"].astype(
+            str
+        )
         user_data["User.UserId"] = user_data["User.UserId"].astype(str)
-        combined_df = df_recommended_segments.merge(user_data, left_on="userId", right_on="User.UserId", how="left")
+        combined_df = df_recommended_segments.merge(
+            user_data, left_on="userId", right_on="User.UserId", how="left"
+        )
         st.write("### Recommended Customers Information")
         st.write(combined_df)
         st.button(
             "Confirm to use this Segment Data",
-            on_click=save_df_session_state(df=combined_df, df_name=f"(Personalize)-{job_name}"),
+            on_click=save_df_session_state(
+                df=combined_df, df_name=f"(Personalize)-{job_name}"
+            ),
         )
 
     #########################
@@ -410,10 +443,14 @@ if show_segment_info:
         # Decode the byte string and parse as JSON
         data = json.loads(personalize_jobs.decode("utf-8"))
         st.session_state.df_personalize_jobs = pd.DataFrame(data["batchSegmentJobs"])
-        st.session_state.df_personalize_jobs = st.session_state.df_personalize_jobs.sort_values(
-            by="creationDateTime", ascending=False
+        st.session_state.df_personalize_jobs = (
+            st.session_state.df_personalize_jobs.sort_values(
+                by="creationDateTime", ascending=False
+            )
         )
         # Update the placeholder on the main page with the new dataframe
         jobs_df_main_placeholder.dataframe(
-            st.session_state.df_personalize_jobs[["jobName", "status"]], hide_index=True, use_container_width=True
+            st.session_state.df_personalize_jobs[["jobName", "status"]],
+            hide_index=True,
+            use_container_width=True,
         )
