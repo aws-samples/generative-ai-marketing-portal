@@ -44,6 +44,10 @@ bash resize.sh 20
 
 ### Build Langchain Lambda Layer
 
+- Enter the following commands to build the Langchain lambda layer for the corresponding Python Runtime Environment.
+
+#### Python 3.9
+
 ```
 pushd assets/layers/langchain &&
 docker run \
@@ -51,6 +55,32 @@ docker run \
  "public.ecr.aws/sam/build-python3.9" \
  /bin/sh -c "pip install -r requirements.txt \
  -t python/lib/python3.9/site-packages/; exit" &&
+zip -r langchain-layer.zip python &&
+popd
+```
+
+#### Python 3.10
+
+```
+pushd assets/layers/langchain &&
+docker run \
+ -v "$(pwd):/var/task" \
+ "public.ecr.aws/sam/build-python3.10" \
+ /bin/sh -c "pip install -r requirements.txt \
+ -t python/lib/python3.10/site-packages/; exit" &&
+zip -r langchain-layer.zip python &&
+popd
+```
+
+#### Python 3.11
+
+```
+pushd assets/layers/langchain &&
+docker run \
+ -v "$(pwd):/var/task" \
+ "public.ecr.aws/sam/build-python3.11" \
+ /bin/sh -c "pip install -r requirements.txt \
+ -t python/lib/python3.11/site-packages/; exit" &&
 zip -r langchain-layer.zip python &&
 popd
 ```
@@ -122,7 +152,6 @@ cdk destroy
 ```
 
 2. If you used Cloud9 for deployment, destroy the Cloud9 instance by opening the [Cloud9 console](https://us-west-2.console.aws.amazon.com/cloud9/home?region=us-west-2) and clicking on Delete.
-3. Delete the S3 CloudfrontLogsBucket if you no longer need access to the Cloudfront Log.
 
 ### [OPTIONAL] Deploy Solution Version for Amazon Personalize
 
@@ -180,7 +209,7 @@ Once done, confirm that all interactions, user and item datasets have been succe
 ```
 # Environment for local testing
 CLIENT_ID = "" # Input Value of CognitoClientID
-API_URI = "" # Input value of Endpoint
+API_URI = "" # Input value of API Gateway Endpoint
 REGION = "" # Input value of the region you've deployed your solution (e.g. us-east-1)
 AWS_ACCESS_KEY_ID="" # Input value of the temporary AWS key, secret for your admin account or a user with the appropriate permission
 AWS_SECRET_ACCESS_KEY="" # Input value of the temporary AWS key, secret for your admin account or a user with the appropriate permission
