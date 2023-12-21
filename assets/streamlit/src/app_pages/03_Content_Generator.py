@@ -109,7 +109,7 @@ fs = s3fs.S3FileSystem(anon=False)
 #########################
 
 reset_session_state(page_name=PAGE_NAME)
-st.session_state.setdefault("ai_model", MODELS_DISPLAYED[1])  # default model
+st.session_state.setdefault("ai_model", MODELS_DISPLAYED[0])  # default model
 # if "ai_model" not in st.session_state:
 #     st.session_state["ai_model"] = MODELS_DISPLAYED[0]  # default model
 LOGGER.log(logging.DEBUG, (f"ai_model selected: {st.session_state['ai_model']}"))
@@ -167,7 +167,7 @@ def get_product_info(product_id, return_dict=True):
             return data
 
 
-def get_llm(ai_model="anthropic.claude-instant-v1"):
+def get_llm(ai_model="anthropic.claude-v2"):
     session = boto3.session.Session(profile_name="bedrock-team-account")
     bedrock = session.client("bedrock", region_name="us-east-1")
 
@@ -496,7 +496,6 @@ else:
 
     with st.sidebar:
         st.markdown("")
-        st.header("AI Answer Settings")
 
         # language model
         st.subheader("Language Model")
@@ -504,8 +503,7 @@ else:
             label="Select a language model:",
             options=MODELS_DISPLAYED,
             key="ai_model",
-            # on_change=run_genai_query,
-            help="The search app provides flexibility to choose a large language model used for AI answers.",
+            help="Choose the LLM model used for content generation",
         )
         if st.session_state["ai_model"] in MODELS_UNAVAILABLE:
             st.error(f'{st.session_state["ai_model"]} not available', icon="⚠️")

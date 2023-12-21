@@ -158,7 +158,6 @@ box_style = {
 #########################
 with st.sidebar:
     st.markdown("")
-    st.header("AI Answer Settings")
 
     # language model
     st.subheader("Language Model")
@@ -167,7 +166,7 @@ with st.sidebar:
         options=MODELS_DISPLAYED,
         key="ai_model",
         # on_change=run_genai_query,
-        help="The search app provides flexibility to choose a large language model used for AI answers.",
+        help="Choose the LLM model used for content generation",
     )
     if st.session_state["ai_model"] in MODELS_UNAVAILABLE:
         st.error(f'{st.session_state["ai_model"]} not available', icon="⚠️")

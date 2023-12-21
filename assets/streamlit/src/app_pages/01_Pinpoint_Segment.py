@@ -117,7 +117,7 @@ fs = s3fs.S3FileSystem(anon=False)
 #########################
 
 reset_session_state(page_name=PAGE_NAME)
-st.session_state.setdefault("ai_model", MODELS_DISPLAYED[1])  # default model
+st.session_state.setdefault("ai_model", MODELS_DISPLAYED[0])  # default model
 # if "ai_model" not in st.session_state:
 #     st.session_state["ai_model"] = MODELS_DISPLAYED[0]  # default model
 LOGGER.log(logging.DEBUG, (f"ai_model selected: {st.session_state['ai_model']}"))
@@ -131,7 +131,12 @@ if "df_name" not in st.session_state:
 ########################################################################################################################################################################
 
 # Define the style of the box element
-box_style = {"border": "1px solid #ccc", "padding": "10px", "border-radius": "5px", "margin": "10px"}
+box_style = {
+    "border": "1px solid #ccc",
+    "padding": "10px",
+    "border-radius": "5px",
+    "margin": "10px",
+}
 
 ########################################################################################################################################################################
 ######################################################## NavBar      ###################################################################################################
@@ -225,7 +230,10 @@ st.markdown(
 ########################################################################################################################################################################
 
 st.sidebar.markdown(f"<div style='{box_style}'>", unsafe_allow_html=True)
-st.sidebar.markdown(f"<p><strong>Current Segment: </strong> {st.session_state['df_name']}</p>", unsafe_allow_html=True)
+st.sidebar.markdown(
+    f"<p><strong>Current Segment: </strong> {st.session_state['df_name']}</p>",
+    unsafe_allow_html=True,
+)
 
 st.markdown("## Segment Data in Amazon Pinpoint")
 
@@ -245,7 +253,18 @@ df["EMAIL"] = df.get("ImportDefinition.ChannelCounts.EMAIL", 0)
 df["PUSH"] = df.get("ImportDefinition.ChannelCounts.PUSH", 0)
 
 # Select only the required columns
-df = df[["Name", "SegmentType", "ImportDefinition.Size", "SMS", "VOICE", "EMAIL", "PUSH", "Id"]]
+df = df[
+    [
+        "Name",
+        "SegmentType",
+        "ImportDefinition.Size",
+        "SMS",
+        "VOICE",
+        "EMAIL",
+        "PUSH",
+        "Id",
+    ]
+]
 
 # Rename the columns
 df.columns = ["Name", "Type", "Size", "SMS", "VOICE", "EMAIL", "PUSH", "Segment ID"]
@@ -257,7 +276,9 @@ st.dataframe(df, hide_index=True)
 segment_names = df["Name"].tolist()
 
 # Create a select box
-selected_segment_name = st.selectbox(label="Select an Amazon Pinpoint Segment to deep dive:", options=segment_names)
+selected_segment_name = st.selectbox(
+    label="Select an Amazon Pinpoint Segment to deep dive:", options=segment_names
+)
 
 # Get the selected segment
 selected_segment = df[df["Name"] == selected_segment_name]
@@ -267,14 +288,18 @@ selected_segment_id = selected_segment["Segment ID"].values[0]
 
 # Create a button placeholder
 placeholder = st.empty()
-segment_button = placeholder.button("Export and Analyze Segment", disabled=False, key="1")
+segment_button = placeholder.button(
+    "Export and Analyze Segment", disabled=False, key="1"
+)
 
 job_status = "FAILED"
 status_placeholder = st.empty()
 exported_files = None
 if segment_button:
     segment_button_2 = placeholder.button(
-        "Please wait while we fetch your Amazon Pinpoint Segment", disabled=True, key="2"
+        "Please wait while we fetch your Amazon Pinpoint Segment",
+        disabled=True,
+        key="2",
     )
     # Prompt Pinpoint to Export Segment to S3
     get_job_response = json.loads(create_pinpoint_export_job(selected_segment_id))
@@ -289,7 +314,10 @@ if segment_button:
         if job_status == "COMPLETED":
             # Export now completed, get the files from S3
             exported_files = json.loads(
-                get_export_files_uri(get_job_status["Definition"]["S3UrlPrefix"], get_job_status["TotalPieces"])
+                get_export_files_uri(
+                    get_job_status["Definition"]["S3UrlPrefix"],
+                    get_job_status["TotalPieces"],
+                )
             )
             break
         elif job_status == "FAILED":
@@ -299,7 +327,9 @@ if segment_button:
 
 if exported_files is not None:
     empty_button = placeholder.empty()
-    status_placeholder.success(f"Segment {selected_segment_name} has been successfully retrieved.")
+    status_placeholder.success(
+        f"Segment {selected_segment_name} has been successfully retrieved."
+    )
     # Create an empty DataFrame
     combined_df = pd.DataFrame()
 
@@ -314,5 +344,7 @@ if exported_files is not None:
     # Create a button for confirmation
     st.button(
         "Confirm to use this Segment Data",
-        on_click=save_df_session_state(df=combined_df, df_name=f"(Pinpoint)-{selected_segment_name}"),
+        on_click=save_df_session_state(
+            df=combined_df, df_name=f"(Pinpoint)-{selected_segment_name}"
+        ),
     )

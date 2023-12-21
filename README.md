@@ -204,7 +204,7 @@ Once done, confirm that all interactions, user and item datasets have been succe
 
 - If you'd like to customize the front-end streamlit webpage to your use case, you can develop locally with the following steps.
 - Install streamlit requirement packages found at assets/streamlit/requirements-streamlit-dev.txt
-- Create a .env file with the following content and fill in the appropriate values for each variables:
+- Create a .env file in the (assets/streamlit) folder with the following content and fill in the appropriate values for each variables:
 
 ```
 # Environment for local testing
@@ -219,8 +219,8 @@ COVER_IMAGE_LOGIN_URL = "" # Input URL of image (publicly accessible) that you'd
 ```
 
 ```
-cd assets/streamlit/src
-streamlit run Home.py
+cd assets/streamlit/ &&
+streamlit run src/Home.py
 ```
 
 ## Solution Architecture
