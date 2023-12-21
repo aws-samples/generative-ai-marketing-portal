@@ -153,6 +153,8 @@ cdk destroy
 
 2. If you used Cloud9 for deployment, destroy the Cloud9 instance by opening the [Cloud9 console](https://us-west-2.console.aws.amazon.com/cloud9/home?region=us-west-2) and clicking on Delete.
 
+3. We retain the CloudfrontLogBucket. If no longer needed, empty and delete the S3 bucket.
+
 ### [OPTIONAL] Deploy Solution Version for Amazon Personalize
 
 - Perform the below steps if you'd like to use the Amazon Personalize batch segment as part of your user group.
