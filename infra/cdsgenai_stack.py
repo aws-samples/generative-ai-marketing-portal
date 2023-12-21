@@ -149,7 +149,7 @@ class CDSGenAIStack(Stack):
             self.cloudfront_distribution_name = output(
                 self,
                 id="CloudfrontDistributionDomain",
-                description="Public URL to access Cloudfront"
+                description="Public URL to access Cloudfront",
                 value=self.streamlit_constructs.cloudfront.domain_name,
             )
 
