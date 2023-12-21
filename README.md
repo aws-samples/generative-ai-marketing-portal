@@ -116,15 +116,14 @@ popd
 
 ### Cleanup
 
-1. Sometimes Cloudfront will continue to write files to the log bucket, rendering the `cdk destroy` command to fail.
-2. Check and empty the Cloudfront log bucket (named "-----genaimarketercloudfrontl----") manually.
-3. Remove the application by running the following command in your Cloud9 IDE
+1. Remove the application by running the following command in your Cloud9 IDE
 
 ```
 cdk destroy
 ```
 
-4. Delete the Cloud9 IDE by opening the [Cloud9 console](https://us-west-2.console.aws.amazon.com/cloud9/home?region=us-west-2) and clicking on Delete
+2. If you used Cloud9 for deployment, destroy the Cloud9 instance by opening the [Cloud9 console](https://us-west-2.console.aws.amazon.com/cloud9/home?region=us-west-2) and clicking on Delete.
+3. Delete the S3 CloudfrontLogsBucket if you no longer need access to the Cloudfront Log.
 
 ### [OPTIONAL] Deploy Solution Version for Amazon Personalize
 

@@ -288,10 +288,9 @@ class StreamlitStack(NestedStack):
         cloudfront_log_bucket = _s3.Bucket(
             self,
             f"{self.prefix}-CloudfrontLogsBucket",
-            removal_policy=RemovalPolicy.DESTROY,
+            removal_policy=RemovalPolicy.RETAIN,
             object_ownership=_s3.ObjectOwnership.BUCKET_OWNER_PREFERRED,
             block_public_access=_s3.BlockPublicAccess.BLOCK_ALL,
-            auto_delete_objects=True,
             server_access_logs_prefix="access-logs/",
             enforce_ssl=True,
         )
