@@ -10,7 +10,7 @@ This library is licensed under the MIT-0 License. See the LICENSE file.
 
 ## Demo Video
 
-<video src="videos/MarketingPortal.mp4" controls title="Generative AI Marketing Portal Demo"></video>
+https://github.com/aws-samples/generative-ai-marketing-portal/assets/120146166/c6408d9c-a3df-4063-b315-b7b4525a6b70
 
 ## Prerequisites
 
