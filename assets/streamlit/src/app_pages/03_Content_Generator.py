@@ -22,6 +22,8 @@ from streamlit_extras.switch_page_button import switch_page
 import s3fs
 from components.utils_models import BEDROCK_MODELS
 
+from langchain.chains import LLMChain
+
 LOGGER = logging.Logger("AI-Chat", level=logging.DEBUG)
 HANDLER = logging.StreamHandler(sys.stdout)
 HANDLER.setFormatter(logging.Formatter("%(levelname)s | %(name)s | %(message)s"))
@@ -289,11 +291,30 @@ def generateMarketingContent(
     prompt = prompt_template.format(channel=channel, name=name, age=age, lang=lang)
 
     with st.spinner("Generating content..."):
-        content = genai_api.invoke_content_creation(
-            prompt=prompt,
-            model_id=ai_model,
-            access_token=st.session_state["access_token"],
+
+        boto3_bedrock = boto3.client('bedrock-runtime', region_name="us-east-1")
+        cl_llm = Bedrock(
+            model_id="anthropic.claude-v2",
+            # model_id="anthropic.claude-instant-v1",
+            client=boto3_bedrock,
+            model_kwargs={
+                "max_tokens_to_sample": 1000,
+                "temperature": 0.0,
+            }
         )
+
+        gen_chain = LLMChain(
+            llm = cl_llm,
+            prompt = prompt_template,
+        )
+        content = gen_chain.run(channel=channel, name=name, age=age, lang=lang)
+
+        
+        # content = genai_api.invoke_content_creation(
+        #     prompt=prompt,
+        #     model_id=ai_model,
+        #     access_token=st.session_state["access_token"],
+        # )
         return content
 
 
@@ -415,6 +436,8 @@ def extract_content(text_area):
     """
     try:
         # Extracting the content for each part
+        st.write(text_area)
+
         message_subject = None
         message_body_html = None
         if "###SUBJECT###" in text_area:
@@ -584,6 +607,9 @@ else:
 
     channel = customer_details.loc["ChannelType"]
 
+    
+    
+
     #### GET PRODUCT DATA FOR CONTENT GENERATION
 
     product_data = ""
@@ -594,7 +620,7 @@ else:
             f"s3://{BUCKET_NAME}/demo-data/df_item_deduplicated.csv", "rb"
         ) as f:
             item_data = pd.read_csv(f)
-        item_data = item_data[item_data["ITEM_ID"] == customer_details.loc["itemId"]]
+            item_data = item_data.loc[item_data["ITEM_ID"] == int(customer_details.loc["itemId"])]
 
     else:
         # Get Item Metadata (Banking) since using Pinpoint Segment
@@ -609,6 +635,7 @@ else:
 
     for col, value in row.items():
         product_data += f"{col}: {value}; "
+
 
     # create a button that will generate the channel content
     content = generateMarketingContent(
@@ -667,17 +694,17 @@ else:
                 item_data["ITEM_ID"] == customer_details.loc["itemId"]
             ]
             # Extract the single row as a Series
-            row = item_data.iloc[0]
+            # row = item_data.iloc[0]
 
-            # Create a container for each line
-            for col, value in row.items():
-                with st.container():
-                    st.markdown(
-                        f"<div style='border:1px solid #ccc; padding:10px; margin:5px; border-radius:5px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: #f9f9f9;'>"
-                        f"<strong>{col}</strong>: {value}"
-                        f"</div>",
-                        unsafe_allow_html=True,
-                    )
+            # # Create a container for each line
+            # for col, value in row.items():
+            #     with st.container():
+            #         st.markdown(
+            #             f"<div style='border:1px solid #ccc; padding:10px; margin:5px; border-radius:5px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: #f9f9f9;'>"
+            #             f"<strong>{col}</strong>: {value}"
+            #             f"</div>",
+            #             unsafe_allow_html=True,
+            #        )
         else:
             # Else show the default product detail
             product_info = get_product_info(
