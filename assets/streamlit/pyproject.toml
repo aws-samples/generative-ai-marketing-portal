@@ -14,7 +14,7 @@ authors = [
 [tool.poetry.dependencies]
 python = ">3.9.7,<3.10.0"
 boto3 = "^1.33.0"
-langchain = "^0.0.341"
+langchain = "^0.1.11"
 streamlit = "^1.25.0"
 streamlit-chat = "~0.1.1"
 st-pages = "~0.4.3"
