@@ -48,4 +48,4 @@ urllib3==2.2.2
 wcwidth==0.2.5
 wrapt==1.13.3
 yarg==0.1.9
-zipp==3.19.1
+zipp==3.19.2
