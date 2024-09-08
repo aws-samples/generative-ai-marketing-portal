@@ -54,7 +54,7 @@ items_schema_json = {
         {"name": "DurationDays", "type": "int"},
         {"name": "Season", "type": ["null", "string"], "categorical": True},
         {"name": "numberOfSearchByUser", "type": "int"},
-        {"name": "Promotion", "type": ["null", "string"], "categorical": True},
+        # {"name": "Promotion", "type": ["null", "string"], "categorical": True},
         {"name": "DynamicPrice", "type": "int"},
         {"name": "DiscountForMember", "type": "float"},
         {"name": "Expired", "type": ["null", "string"], "categorical": True},

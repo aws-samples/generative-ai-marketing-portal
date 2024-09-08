@@ -1,66 +1,74 @@
 {
-    "Falcon": {
-        "MODEL_ID": null,
-        "NUM_DOCS_DEFAULT": 3,
-        "TEMPERATURE_DEFAULT": 0.1,
-        "ANSWER_LENGTH_DEFAULT": 200,
-        "DOC_LENGTH_DEFAULT": 500,
-        "RELEVANCE_THRESHOLD_DEFAULT": 0.2
-    },
-    "Flan T5": {
-        "MODEL_ID": null,
-        "NUM_DOCS_DEFAULT": 2,
-        "TEMPERATURE_DEFAULT": 1.0,
-        "ANSWER_LENGTH_DEFAULT": 200,
-        "DOC_LENGTH_DEFAULT": 500,
-        "RELEVANCE_THRESHOLD_DEFAULT": 0.2
-    },
-    "Bedrock: Amazon Titan": {
-        "MODEL_ID": "amazon.titan-tg1-large",
-        "NUM_DOCS_DEFAULT": 5,
-        "TEMPERATURE_DEFAULT": 0.0,
-        "ANSWER_LENGTH_DEFAULT": 200,
-        "DOC_LENGTH_DEFAULT": 1000,
-        "RELEVANCE_THRESHOLD_DEFAULT": 0.2
-    },
-    "Bedrock: Claude": {
-        "MODEL_ID": "anthropic.claude-v1",
-        "NUM_DOCS_DEFAULT": 5,
-        "TEMPERATURE_DEFAULT": 0.0,
-        "ANSWER_LENGTH_DEFAULT": 200,
-        "DOC_LENGTH_DEFAULT": 1000,
-        "RELEVANCE_THRESHOLD_DEFAULT": 0.2
-    },
-    "Bedrock: Claude V2": {
-        "MODEL_ID": "anthropic.claude-v2",
-        "NUM_DOCS_DEFAULT": 5,
-        "TEMPERATURE_DEFAULT": 0.0,
-        "ANSWER_LENGTH_DEFAULT": 200,
-        "DOC_LENGTH_DEFAULT": 1000,
-        "RELEVANCE_THRESHOLD_DEFAULT": 0.2
-    },
-    "Bedrock: Claude Instant": {
-        "MODEL_ID": "anthropic.claude-instant-v1",
-        "NUM_DOCS_DEFAULT": 5,
-        "TEMPERATURE_DEFAULT": 0.0,
-        "ANSWER_LENGTH_DEFAULT": 200,
-        "DOC_LENGTH_DEFAULT": 1000,
-        "RELEVANCE_THRESHOLD_DEFAULT": 0.2
-    },
-    "Bedrock: J2 Grande Instruct": {
-        "MODEL_ID": "ai21.j2-grande-instruct",
-        "NUM_DOCS_DEFAULT": 5,
-        "TEMPERATURE_DEFAULT": 0.0,
-        "ANSWER_LENGTH_DEFAULT": 200,
-        "DOC_LENGTH_DEFAULT": 1000,
-        "RELEVANCE_THRESHOLD_DEFAULT": 0.2
-    },
-    "Bedrock: J2 Jumbo Instruct": {
-        "MODEL_ID": "ai21.j2-jumbo-instruct",
-        "NUM_DOCS_DEFAULT": 5,
-        "TEMPERATURE_DEFAULT": 0.0,
-        "ANSWER_LENGTH_DEFAULT": 200,
-        "DOC_LENGTH_DEFAULT": 1000,
-        "RELEVANCE_THRESHOLD_DEFAULT": 0.2
-    }
+  "Falcon": {
+    "MODEL_ID": null,
+    "NUM_DOCS_DEFAULT": 3,
+    "TEMPERATURE_DEFAULT": 0.1,
+    "ANSWER_LENGTH_DEFAULT": 200,
+    "DOC_LENGTH_DEFAULT": 500,
+    "RELEVANCE_THRESHOLD_DEFAULT": 0.2
+  },
+  "Flan T5": {
+    "MODEL_ID": null,
+    "NUM_DOCS_DEFAULT": 2,
+    "TEMPERATURE_DEFAULT": 1.0,
+    "ANSWER_LENGTH_DEFAULT": 200,
+    "DOC_LENGTH_DEFAULT": 500,
+    "RELEVANCE_THRESHOLD_DEFAULT": 0.2
+  },
+  "Bedrock: Amazon Titan": {
+    "MODEL_ID": "amazon.titan-tg1-large",
+    "NUM_DOCS_DEFAULT": 5,
+    "TEMPERATURE_DEFAULT": 0.0,
+    "ANSWER_LENGTH_DEFAULT": 200,
+    "DOC_LENGTH_DEFAULT": 1000,
+    "RELEVANCE_THRESHOLD_DEFAULT": 0.2
+  },
+  "Bedrock: Claude": {
+    "MODEL_ID": "anthropic.claude-v1",
+    "NUM_DOCS_DEFAULT": 5,
+    "TEMPERATURE_DEFAULT": 0.0,
+    "ANSWER_LENGTH_DEFAULT": 200,
+    "DOC_LENGTH_DEFAULT": 1000,
+    "RELEVANCE_THRESHOLD_DEFAULT": 0.2
+  },
+  "Bedrock: Claude V2": {
+    "MODEL_ID": "anthropic.claude-v2",
+    "NUM_DOCS_DEFAULT": 5,
+    "TEMPERATURE_DEFAULT": 0.0,
+    "ANSWER_LENGTH_DEFAULT": 200,
+    "DOC_LENGTH_DEFAULT": 1000,
+    "RELEVANCE_THRESHOLD_DEFAULT": 0.2
+  },
+  "Bedrock: Claude Instant": {
+    "MODEL_ID": "anthropic.claude-instant-v1",
+    "NUM_DOCS_DEFAULT": 5,
+    "TEMPERATURE_DEFAULT": 0.0,
+    "ANSWER_LENGTH_DEFAULT": 200,
+    "DOC_LENGTH_DEFAULT": 1000,
+    "RELEVANCE_THRESHOLD_DEFAULT": 0.2
+  },
+  "Bedrock: Claude Haiku": {
+    "MODEL_ID": "anthropic.claude-3-haiku-20240307-v1:0",
+    "NUM_DOCS_DEFAULT": 5,
+    "TEMPERATURE_DEFAULT": 0.0,
+    "ANSWER_LENGTH_DEFAULT": 200,
+    "DOC_LENGTH_DEFAULT": 1000,
+    "RELEVANCE_THRESHOLD_DEFAULT": 0.2
+  },
+  "Bedrock: J2 Grande Instruct": {
+    "MODEL_ID": "ai21.j2-grande-instruct",
+    "NUM_DOCS_DEFAULT": 5,
+    "TEMPERATURE_DEFAULT": 0.0,
+    "ANSWER_LENGTH_DEFAULT": 200,
+    "DOC_LENGTH_DEFAULT": 1000,
+    "RELEVANCE_THRESHOLD_DEFAULT": 0.2
+  },
+  "Bedrock: J2 Jumbo Instruct": {
+    "MODEL_ID": "ai21.j2-jumbo-instruct",
+    "NUM_DOCS_DEFAULT": 5,
+    "TEMPERATURE_DEFAULT": 0.0,
+    "ANSWER_LENGTH_DEFAULT": 200,
+    "DOC_LENGTH_DEFAULT": 1000,
+    "RELEVANCE_THRESHOLD_DEFAULT": 0.2
+  }
 }
