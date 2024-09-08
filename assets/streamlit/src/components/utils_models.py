@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 BEDROCK_MODELS = [
+    "Bedrock: Claude Haiku",
     "Bedrock: Claude V2",
     "Bedrock: Claude Instant",
     "Bedrock: J2 Grande Instruct",

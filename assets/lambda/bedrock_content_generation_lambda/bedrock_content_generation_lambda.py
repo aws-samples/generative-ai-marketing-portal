@@ -38,6 +38,7 @@ MODELS_MAPPING = {
     "Bedrock: Claude Instant": "anthropic.claude-instant-v1",
     "Bedrock: J2 Grande Instruct": "ai21.j2-grande-instruct",
     "Bedrock: J2 Jumbo Instruct": "ai21.j2-jumbo-instruct",
+    "Bedrock: Claude Haiku": "anthropic.claude-3-haiku-20240307-v1:0",
 }
 
 
@@ -102,6 +103,21 @@ def verify_bedrock_client():
     return True
 
 
+def generate_message(bedrock_runtime, model_id, system_prompt, messages, max_tokens):
+    body = json.dumps(
+        {
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": max_tokens,
+            "system": system_prompt,
+            "messages": messages,
+        }
+    )
+
+    response = bedrock_runtime.invoke_model(body=body, modelId=model_id)
+
+    return response
+
+
 #########################
 #        HANDLER
 #########################
@@ -132,6 +148,7 @@ def lambda_handler(event, context):
 
     # load variable model params
     amazon_flag = False
+    claude3_flag = False
     model_params = {}
     if MODEL_ID.startswith("amazon"):
         model_params = {
@@ -141,6 +158,14 @@ def lambda_handler(event, context):
             "topP": fixed_params["TOP_P"],
         }
         amazon_flag = True
+    elif MODEL_ID.startswith("anthropic.claude-3"):
+        model_params = {
+            "max_tokens_to_sample": model_params_value["answer_length"],
+            "temperature": model_params_value["temperature"],
+            "top_p": fixed_params["TOP_P"],
+            "stop_sequences": fixed_params["STOP_WORDS"],
+        }
+        claude3_flag = True
     elif MODEL_ID.startswith("anthropic"):
         model_params = {
             "max_tokens_to_sample": model_params_value["answer_length"],
@@ -173,10 +198,16 @@ def lambda_handler(event, context):
                 "textGenerationConfig": model_params,
             }
         )
-        print(input_data)
         response = BEDROCK_CLIENT.invoke_model(
             body=input_data, modelId=MODEL_ID, accept=accept, contentType=contentType
         )
+    elif claude3_flag == True:
+        system_prompt = "Please respond directly to user request. Do not add any extra comments"
+        # Prompt with user turn only.
+        user_message = {"role": "user", "content": query_value}
+        messages = [user_message]
+        max_tokens = 4096
+        response = generate_message(BEDROCK_CLIENT, MODEL_ID, system_prompt, messages, max_tokens)
 
     else:
         body = json.dumps({"prompt": query_value, **model_params})
@@ -186,11 +217,11 @@ def lambda_handler(event, context):
 
     if "amazon" in MODEL_ID:
         response = response_body.get("results")[0].get("outputText")
+    elif "claude-3" in MODEL_ID:
+        response = response_body["content"][0]["text"]
     elif "anthropic" in MODEL_ID:
         response = response_body.get("completion")
     elif "ai21" in MODEL_ID:
         response = response_body.get("completions")[0].get("data").get("text")
-
-    print("Responese: ", response)
 
     return json.dumps(response)
