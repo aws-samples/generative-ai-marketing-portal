@@ -21,7 +21,7 @@ sagemaker = "^2.169.0"
 aws-cdk-aws-apigatewayv2-alpha = "^2.0"
 aws-cdk-aws-apigatewayv2-integrations-alpha = "^2.0.0"
 aws-cdk-aws-apigatewayv2-authorizers-alpha = "^2.0.0"
-aiohttp = "^3.9.4"
+aiohttp = "^3.10.2"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.3.3"
