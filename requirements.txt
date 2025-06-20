@@ -8,8 +8,8 @@ aws-cdk.aws_apigatewayv2_integrations_alpha
 aws_cdk.aws_apigatewayv2_authorizers_alpha
 cdk_nag
 constructs>=10.0.0,<11.0.0
-boto3==1.34.22
-botocore==1.34.22
+boto3
+botocore
 cattrs==1.10.0
 certifi==2024.7.4
 charset-normalizer==2.0.12
@@ -50,3 +50,5 @@ wcwidth==0.2.5
 wrapt==1.13.3
 yarg==0.1.9
 zipp==3.20.1
+streamlit
+st-pages

@@ -193,7 +193,7 @@ class CDSAIAPIConstructs(Construct):
             password_policy=cognito.PasswordPolicy(
                 min_length=8, require_digits=True, require_lowercase=True, require_uppercase=True, require_symbols=True
             ),
-            advanced_security_mode=cognito.AdvancedSecurityMode.ENFORCED,
+            advanced_security_mode=cognito.AdvancedSecurityMode.OFF,
             removal_policy=RemovalPolicy.DESTROY,
         )
 

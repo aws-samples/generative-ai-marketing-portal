@@ -188,7 +188,7 @@ class StreamlitStack(NestedStack):
             vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
         )
 
-        alb.log_access_logs(bucket=log_bucket, prefix="alb-logs/")
+        alb.log_access_logs(bucket=log_bucket, prefix="alb-logs")
 
         # Create web app task role
         task_role = iam.Role(self, "TaskRole", assumed_by=iam.ServicePrincipal("ecs-tasks.amazonaws.com"))

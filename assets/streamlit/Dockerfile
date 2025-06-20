@@ -18,9 +18,9 @@ COPY pyproject.toml /app
 COPY .streamlit/ /app/.streamlit/
 
 RUN pip3 --no-cache-dir install -U pip
-RUN pip3 --no-cache-dir install poetry
+RUN pip3 --no-cache-dir install poetry langchain-community
 RUN poetry config virtualenvs.create false
-RUN poetry install --only main
+RUN poetry install --only main --no-root
 
 COPY src/ /app/src
 
